@@ -15,6 +15,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let lats = [];
 let lons = [];
+let mags = []
 
 d3.json(link).then(info =>{
     console.log(info);
@@ -25,12 +26,19 @@ d3.json(link).then(info =>{
     for(i=0;i<feat.length;i++){
         lats.push(feat[i]["geometry"]["coordinates"][1]);
         lons.push(feat[i]["geometry"]["coordinates"][0]);
+        mags.push(feat[i]["properties"]["mag"]);
     }
     console.log(lats);
     console.log(lons);
+    console.log(mags);
 
     for(i=0; i<lats.length; i++){
-    L.marker([lats[i], lons[i]])
+    L.circle([lats[i], lons[i]],{
+        color: "red",
+        fillColor: "red",
+        fillOpacity: 0.75,
+        radius:10000*mags[i]
+    })
     .addTo(myMap)};
 }
 )
