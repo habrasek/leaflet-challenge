@@ -5,8 +5,8 @@ let response = d3.json(link);
 console.log(response);
 
 var myMap = L.map("map", {
-  center: [41.52, -121.67],
-  zoom: 5
+  center: [49, -137.67],
+  zoom: 3
 });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -41,13 +41,36 @@ d3.json(link).then(info =>{
     L.circle([lats[i], lons[i]],{
         color: perc2color(deps[i]),
         fillColor: perc2color(deps[i]),
-        fillOpacity: 0.75,
+        fillOpacity: 1,
         radius:10000*mags[i]
-    }).bindPopup(`${desc[i]}<br>${deps[i]}`)
+    }).bindPopup(`${desc[i]}<br>Depth: ${deps[i]}<br>Magnitude: ${mags[i]}`)
     .addTo(myMap)};
 }
 )
 
+let legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function(map){
+    var div = L.DomUtil.create('div', 'info legend');
+    labels = ['<strong>Categories</strong>'],
+    categories = [0, 10, 20, 50, 75, 125, 205];
+
+    for (var i = 0; i < categories.length; i++) {
+
+            div.innerHTML += 
+            labels.push(
+                `<i style="color:${perc2color(categories[i])};">${categories[i]}</i>`);
+
+        }
+        div.innerHTML = labels.join('<br>');
+    return div;
+    };
+
+
+legend.addTo(myMap);
+
+
+//credit to mlocati on github
 function perc2color(perc) {
 	var r, g, b = 0;
 	if(perc < 50) {
