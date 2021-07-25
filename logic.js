@@ -52,7 +52,7 @@ let legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function(map){
     var div = L.DomUtil.create('div', 'info legend');
-    labels = ['<strong>Categories</strong>'],
+    labels = ['<strong>Depths</strong>'],
     categories = [0, 10, 20, 50, 75, 125, 205];
 
     for (var i = 0; i < categories.length; i++) {
